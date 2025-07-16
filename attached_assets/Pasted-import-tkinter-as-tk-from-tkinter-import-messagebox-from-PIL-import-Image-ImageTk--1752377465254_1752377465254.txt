@@ -1,0 +1,81 @@
+import tkinter as tk
+from tkinter import messagebox
+from PIL import Image, ImageTk
+
+# ====== بيانات تسجيل الدخول (اختبارية) ======
+users = {
+    "admin": "admin123"
+}
+
+# ====== دالة التحقق من تسجيل الدخول ======
+def login():
+    username = username_entry.get()
+    password = password_entry.get()
+
+    if username in users and users[username] == password:
+        messagebox.showinfo("Login", "Welcome!")
+        open_home_page()
+    else:
+        messagebox.showerror("Login Failed", "Invalid credentials!")
+
+# ====== دالة تسجيل مستخدم جديد ======
+def register():
+    new_user = username_entry.get()
+    new_pass = password_entry.get()
+    if new_user and new_pass:
+        users[new_user] = new_pass
+        messagebox.showinfo("Register", "Account created successfully!")
+    else:
+        messagebox.showwarning("Warning", "Please enter username and password.")
+
+# ====== واجهة الترحيب بعد الدخول ======
+def open_home_page():
+    for widget in window.winfo_children():
+        widget.destroy()
+
+    welcome_label = tk.Label(window, text="Welcome to the School Portal!", font=("Arial", 20, "bold"), fg="green")
+    welcome_label.pack(pady=20)
+
+    post_label = tk.Label(window, text="Latest Announcements or Posts will appear here.", font=("Arial", 12))
+    post_label.pack(pady=10)
+
+    # Placeholder for image/post
+    post_frame = tk.Frame(window, width=400, height=200, bg="#ddd")
+    post_frame.pack(pady=10)
+    post_text = tk.Label(post_frame, text="(Post Image or Text)", bg="#ddd", font=("Arial", 12))
+    post_text.pack(pady=20)
+
+# ====== واجهة التطبيق الأساسية ======
+window = tk.Tk()
+window.title("School Login Portal")
+window.geometry("500x600")
+window.resizable(False, False)
+
+# ====== تحميل الصورة ======
+image_path = r"C:\Users\fc.imad\Desktop\مجلد جديد ‫(2)‬\‬lycee.jpg"
+try:
+    image = Image.open(image_path)
+    image = image.resize((480, 250))
+    photo = ImageTk.PhotoImage(image)
+    image_label = tk.Label(window, image=photo)
+    image_label.pack(pady=10)
+except Exception as e:
+    print("Could not load image:", e)
+
+# ====== مدخلات التسجيل ======
+tk.Label(window, text="Username:", font=("Arial", 12)).pack()
+username_entry = tk.Entry(window, font=("Arial", 12))
+username_entry.pack(pady=5)
+
+tk.Label(window, text="Password:", font=("Arial", 12)).pack()
+password_entry = tk.Entry(window, show="*", font=("Arial", 12))
+password_entry.pack(pady=5)
+
+# ====== الأزرار ======
+login_button = tk.Button(window, text="Login", font=("Arial", 12), width=15, command=login)
+login_button.pack(pady=10)
+
+register_button = tk.Button(window, text="Register New Account", font=("Arial", 12), width=20, command=register)
+register_button.pack(pady=5)
+
+window.mainloop()
