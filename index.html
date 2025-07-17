@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تسجيل الدخول أو إنشاء حساب</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- نموذج تسجيل الدخول -->
+    <div class="form-box" id="loginForm">
+      <h2>تسجيل الدخول</h2>
+      <form>
+        <label for="login-email">البريد الإلكتروني</label>
+        <input type="email" id="login-email" required />
+
+        <label for="login-password">كلمة المرور</label>
+        <input type="password" id="login-password" required />
+
+        <button type="submit">دخول</button>
+      </form>
+      <p class="switch">ليس لديك حساب؟ <a href="#" onclick="switchToRegister()">سجل الآن</a></p>
+    </div>
+
+    <!-- نموذج التسجيل -->
+    <div class="form-box hidden" id="registerForm">
+      <h2>إنشاء حساب جديد</h2>
+      <form onsubmit="return validateRegisterForm()">
+        <label for="name">الاسم الكامل</label>
+        <input type="text" id="name" required />
+
+        <label for="register-email">البريد الإلكتروني</label>
+        <input type="email" id="register-email" required />
+
+        <label for="register-password">كلمة المرور</label>
+        <input type="password" id="register-password" required />
+
+        <div id="error-message" style="color: red; margin-top: 10px;"></div>
+
+        <button type="submit">تسجيل</button>
+      </form>
+      <p class="switch">لديك حساب؟ <a href="#" onclick="switchToLogin()">سجل دخول</a></p>
+    </div>
+  </div>
+
+  <script>
+    function switchToRegister() {
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('registerForm').classList.remove('hidden');
+    }
+
+    function switchToLogin() {
+      document.getElementById('registerForm').classList.add('hidden');
+      document.getElementById('loginForm').classList.remove('hidden');
+    }
+
+    function validateRegisterForm() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('register-email').value.trim();
+      const password = document.getElementById('register-password').value.trim();
+      const error = document.getElementById('error-message');
+
+      error.textContent = "";
+
+      if (!name || !email || !password) {
+        error.textContent = "الرجاء ملء جميع الحقول.";
+        return false;
+      }
+
+      if (!email.includes("@") || !email.includes(".")) {
+        error.textContent = "الرجاء إدخال بريد إلكتروني صحيح.";
+        return false;
+      }
+
+      window.location.href = "welcome.html";
+      return false;
+    }
+  </script>
+</body>
+</html>
